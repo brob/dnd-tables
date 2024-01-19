@@ -1,31 +1,30 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import {treasures} from '../data/treasures.js';
 import Table from '../components/Table.astro';
 
 
-	// get data from hygraph
-	const hygraphData = await fetch('https://us-east-1-shared-usea1-02.cdn.hygraph.com/content/clrl07kfw02jx01wd0f76dpoq/master', {
-		method: 'POST',
-		body: JSON.stringify({
-			query: `
-				query LootTables {
-					lootTable(where: {id: "clrl0kurm0frz0aimbtd7y0ep"}) {
-						id
-						title
-						rows(first: 100) {
-							name
-							value
-							description
-						}
+// get data from hygraph
+const hygraphData = await fetch('https://us-east-1-shared-usea1-02.cdn.hygraph.com/content/clrl07kfw02jx01wd0f76dpoq/master', {
+	method: 'POST',
+	body: JSON.stringify({
+		query: `
+			query LootTables {
+				lootTable(where: {id: "clrl0kurm0frz0aimbtd7y0ep"}) {
+					id
+					title
+					rows(first: 100) {
+						name
+						value
+						description
 					}
 				}
-				`
-			
-		})
+			}
+			`
+		
 	})
-	const {data} = await hygraphData.json()
-	const {lootTable} = data
+})
+const {data} = await hygraphData.json()
+const {lootTable} = data
 
 
 function getMultipleRandom(arr, num) {
@@ -33,12 +32,12 @@ function getMultipleRandom(arr, num) {
 
   return shuffled.slice(0, num);
 }
-
+const title = "Welcome to Trash Treasures"
 ---
 
 
 
-<Layout title="Welcome to Astro.">
+<Layout title={title}>
 	<main >
 		<h1 class="text-3xl">Welcome to Trash Treasures</h1>
 		<p class="mt-5">
