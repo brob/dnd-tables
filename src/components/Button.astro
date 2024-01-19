@@ -20,7 +20,7 @@ const { list } = Astro.props;
         const randomButton = this.querySelector('button');
         const displaySpan = this.querySelector('span');
         const list = JSON.parse(this.dataset.list);
-        const highlightColorClasses = ["odd:bg-purple-600", "even:bg-purple-600", "text-white"];
+        const highlightColorClasses = ["!bg-purple-600", "text-white"];
         // Each time the button is clicked, update the count.
         randomButton.addEventListener('click', () => {
             const randomNumber = Math.floor(Math.random()*list.length);
