@@ -40,12 +40,12 @@ function getMultipleRandom(arr, num) {
 
 <Layout title="Welcome to Astro.">
 	<main >
-		<h1>Welcome to Trash Treasures</h1>
+		<h1 class="text-3xl">Welcome to Trash Treasures</h1>
 		<p class="mt-5">
-			The chart below will refresh on every page load to give you a d12 set of random treasures and also allow you to randomly select one if you don't want to roll.
+			The chart below will refresh on every page load to give you a set of random treasures and also allow you to randomly select one if you don't want to roll.
 		</p>
 
-		<Table class="mt-5" treasures={getMultipleRandom(lootTable.rows, 10)} title={lootTable.title || "Random treasures"} />
+		<Table class="mt-10" treasures={getMultipleRandom(lootTable.rows, 10)} title={lootTable.title || "Random treasures"} />
 		
 	</main>
 </Layout>
