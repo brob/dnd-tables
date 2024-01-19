@@ -1,0 +1,92 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {treasures} from '../data/treasures.js';
+import Table from '../components/Table.astro';
+
+
+	// get data from hygraph
+	const hygraphData = await fetch('https://us-east-1-shared-usea1-02.cdn.hygraph.com/content/clrl07kfw02jx01wd0f76dpoq/master', {
+		method: 'POST',
+		body: JSON.stringify({
+			query: `
+				query LootTables {
+					lootTable(where: {id: "clrl0kurm0frz0aimbtd7y0ep"}) {
+						id
+						title
+						rows(first: 100) {
+							name
+							value
+							description
+						}
+					}
+				}
+				`
+			
+		})
+	})
+	const {data} = await hygraphData.json()
+	const {lootTable} = data
+
+
+function getMultipleRandom(arr, num) {
+  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+
+  return shuffled.slice(0, num);
+}
+
+---
+
+
+
+<Layout title="Welcome to Astro.">
+	<main >
+		<h1>Welcome to Trash Treasures</h1>
+		<p class="mt-5">
+			The chart below will refresh on every page load to give you a d12 set of random treasures and also allow you to randomly select one if you don't want to roll.
+		</p>
+
+		<Table class="mt-5" treasures={getMultipleRandom(lootTable.rows, 10)} title={lootTable.title || "Random treasures"} />
+		
+	</main>
+</Layout>
+
+<style is:global>
+	:root {
+		--astro-gradient: linear-gradient(0deg, #4f39fa, #da62c4);
+	}
+	main > * + * {
+		margin-top: 1rem;
+	}
+
+	h1 {
+		margin: 2rem 0;
+	}
+
+	main {
+		margin: auto;
+		padding: 1em;
+		max-width: 60ch;
+	}
+
+	.text-gradient {
+		font-weight: 900;
+		background-image: var(--astro-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 100% 200%;
+		background-position-y: 100%;
+		border-radius: 0.4rem;
+		animation: pulse 4s ease-in-out infinite;
+	}
+
+	@keyframes pulse {
+		0%,
+		100% {
+			background-position-y: 0%;
+		}
+		50% {
+			background-position-y: 80%;
+		}
+	}
+
+</style>
