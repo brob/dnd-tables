@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Table from '../components/Table.astro';
+import TableBody from '../components/TableBody.astro';
 
 
 // get data from hygraph
@@ -44,7 +44,7 @@ const title = "Welcome to Trash Treasures"
 			The chart below will refresh on every page load to give you a set of random treasures and also allow you to randomly select one if you don't want to roll.
 		</p>
 
-		<Table class="mt-10" treasures={getMultipleRandom(lootTable.rows, 10)} title={lootTable.title || "Random treasures"} />
+		<TableBody class="mt-10" treasures={lootTable.rows} title={lootTable.title || "Random treasures"} />
 		
 	</main>
 </Layout>
