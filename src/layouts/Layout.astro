@@ -1,7 +1,21 @@
 ---
+import { ViewTransitions, slide } from 'astro:transitions';
+import hygraphClient from '../utils/hygraphClient';
+import Navigation from '../components/Navigation';
 export interface Props {
 	title: string;
 }
+
+
+const pages = await hygraphClient.request(`
+	query lootTables {
+		lootTables(first: 100) {		
+			title
+			slug
+		}
+	}`)
+
+
 
 const { title } = Astro.props;
 ---
@@ -13,11 +27,20 @@ const { title } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+		<ViewTransitions />
+
 		<title>{title}</title>
 	</head>
 	<body>
-		<main>
+		<header>
 			<h1 class="text-3xl">Trash Treasures</h1>
+			<p class="mt-5">
+				The chart below will refresh on every page load to give you a set of random treasures and also allow you to randomly select one if you don't want to roll.
+			</p>
+			<Navigation client:idle pages={pages} />
+		</header>
+		<main transition:animate={slide({duration: '.5s', easing: 'ease-out'})}>
+			
 			<slot />
 		</main>
 	</body>
@@ -43,7 +66,7 @@ const { title } = Astro.props;
 	body {
 		margin: 0;
 	}
-	main {
+	main, header {
 		margin: auto;
 		padding: 1em;
 		max-width: 60ch;
