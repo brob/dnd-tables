@@ -16,7 +16,10 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+		<main>
+			<h1 class="text-3xl">Trash Treasures</h1>
+			<slot />
+		</main>
 	</body>
 </html>
 <style>
@@ -40,6 +43,13 @@ const { title } = Astro.props;
 	body {
 		margin: 0;
 	}
+	main {
+		margin: auto;
+		padding: 1em;
+		max-width: 60ch;
+	}
+
+
 
 	:global(h1) {
 		font-size: var(--font-size-xl);

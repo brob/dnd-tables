@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import TableBody from '../../components/TableBody.astro';
+
+import hygraphClient from '../../utils/hygraphClient';
+export const prerender = true;
+export async function getStaticPaths() {
+    const data = await hygraphClient.request(`query LootTables {
+        lootTables(first: 100) {
+            slug
+            title
+            rows {
+                name
+                id
+                value
+                description
+            }
+        }
+    }`)
+    const {lootTables} = data;
+    console.log(data)
+    return lootTables.map(({slug, title, rows}) => ({
+        params: {slug},
+        props: {slug, title, rows}
+    }));
+}
+
+const {title, rows} = Astro.props;
+const lootTable = {
+    title,
+    rows
+}
+---
+
+<Layout title={title}>
+	<main>
+		<p class="mt-5">
+			The chart below will refresh on every page load to give you a set of random treasures and also allow you to randomly select one if you don't want to roll.
+		</p>
+
+		<TableBody class="mt-10" treasures={lootTable.rows} title={lootTable.title || "Random treasures"} />
+		
+	</main>
+</Layout>
