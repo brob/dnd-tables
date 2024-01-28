@@ -7,17 +7,11 @@ const { title, treasures, count, ...rest } = Astro.props;
 
 
 <section {...rest}>
-<div class="flex justify-between items-center mb-3">
-    <h2 class="text-xl">{title}</h2>
-    <Button list={treasures} /> 
-
-    
-</div>
 
 
 
 <div class="overflow-x-auto">
-    <Table client:load list={treasures}  />
+    <Table client:load list={treasures} title={title}  />
 </div>
 </section>
 

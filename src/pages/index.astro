@@ -1,37 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import TableBody from '../components/TableBody.astro';
-
+import hygraphClient from '../utils/hygraphClient.js';
 
 // get data from hygraph
-const hygraphData = await fetch('https://us-east-1-shared-usea1-02.cdn.hygraph.com/content/clrl07kfw02jx01wd0f76dpoq/master', {
-	method: 'POST',
-	body: JSON.stringify({
-		query: `
-			query LootTables {
-				lootTable(where: {id: "clrl0kurm0frz0aimbtd7y0ep"}) {
-					id
-					title
-					rows(first: 100) {
-						name
-						value
-						description
-					}
-				}
+const hygraphData = await hygraphClient.request(`
+	query LootTables {
+		lootTable(where: {id: "clrl0kurm0frz0aimbtd7y0ep"}) {
+			id
+			title
+			rows(first: 100) {
+				name
+				value
+				description
 			}
-			`
-		
-	})
-})
-const {data} = await hygraphData.json()
-const {lootTable} = data
+		}
+	}
+`)
 
 
-function getMultipleRandom(arr, num) {
-  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+const {lootTable} = hygraphData
 
-  return shuffled.slice(0, num);
-}
 const title = "Welcome to Trash Treasures"
 ---
 
